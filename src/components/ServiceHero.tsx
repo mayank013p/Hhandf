@@ -24,3 +24,6 @@ export default function ServiceHero({ title, description }: ServiceHeroProps) {
           </button>
         </div>
       </div>
+    </div>
+  );
+}

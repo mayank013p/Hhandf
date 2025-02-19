@@ -17,58 +17,52 @@ import React from "react";
 const testimonials = [
   {
     text: " We bring in-depth knowledge and experience across diverse sectors, including manufacturing, healthcare, IT, and more.",
-    imageSrc: avatar1.src,
+    imageSrc: avatar1,
     name: " Expertise Across Industries",
     username: "@experiencethatworks",
   },
   {
     text: " From consultancy and documentation to audits, certification, and training, we provide end-to-end services under one roof. ",
-    imageSrc: avatar1.src,
+    imageSrc: avatar1,
     name: "Comprehensive Solutions:",
     username: "@all-in-oneservices",
   },
   {
     text: "Every business is unique. We deliver customized solutions aligned with your specific goals and requirements.",
-    imageSrc: avatar1.src,
+    imageSrc: avatar1,
     name: " Tailored Approach",
     username: "@madeforyou",
   },
   {
     text: "Trusted by numerous clients, we have successfully helped organizations achieve certifications and compliance with global standards.",
-    imageSrc: avatar1.src,
+    imageSrc: avatar1,
     name: " Proven Track Record",
     username: "@trustedsuccess",
   },
   {
     text: "We ensure your organization meets international benchmarks while addressing local regulatory needs.",
-    imageSrc: avatar1.src,
+    imageSrc: avatar1,
     name: " Global Standards, Local Insights",
     username: "@globalmeetslocal",
   },
   {
     text: "The customizability and integration capabilities of this app are top-notch.",
-    imageSrc: avatar1.src,
+    imageSrc: avatar1,
     name: "Riley Smith",
     username: "@yourgrowth,ourgoal",
   },
   {
     text: "Your growth is our priority. We work closely with you to enhance operational efficiency, reduce risks, and drive sustainable results.",
-    imageSrc: avatar1.src,
+    imageSrc: avatar1,
     name: "Client-Centric Focus",
     username: "@forward-thinkingsolutions",
   },
   {
     text: "We leverage the latest methodologies and technologies to keep your business competitive and future-ready",
-    imageSrc: avatar1.src,
+    imageSrc: avatar1,
     name: "Innovative Strategies",
     username: "@dawsontechtips",
   },
-  // {
-  //   text: "Its user-friendly interface and robust features support our diverse needs.",
-  //   imageSrc: avatar9.src,
-  //   name: "Casey Harper",
-  //   username: "@casey09",
-  // },
 ];
 
 const firstColumn = testimonials.slice(0, 3);
@@ -95,8 +89,8 @@ const TestimonialsColumn = (props: {
     >
       {[...new Array(2)].fill(0).map((_, index) => (
         <React.Fragment key={index}>
-          {props.testimonials.map(({ text, imageSrc, name, username }) => (
-            <div className="card" key={username}>
+          {props.testimonials.map(({ text, imageSrc, name, username }, index) => (
+            <div className="card" key={`${index}-${username}`}>
               <div>{text}</div>
               <div className="flex items-center gap-2 mt-5">
                 <Image
