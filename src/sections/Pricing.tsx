@@ -104,7 +104,7 @@ export const Pricing = () => {
               </button>
               <ul className="flex flex-col gap-5 mt-8">
                 {features.map((feature, index) => (
-                  <li key={index} className="text-sm flex items-center gap-4">
+                  <li key={`${title}-feature-${index}`} className="text-sm flex items-center gap-4">
                     {/* ✅ Use inline SVG instead of importing `CheckIcon` */}
                     <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M5 13l4 4L19 7" />
