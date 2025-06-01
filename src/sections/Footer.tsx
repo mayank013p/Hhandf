@@ -1,9 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import Logo from "@/assets/logosaas.png";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import emailjs from '@emailjs/browser';
 
 export default function Footer() {
+  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,18 +23,29 @@ export default function Footer() {
     setError(null);
 
     try {
-      const response = await fetch("https://hhandb.onrender.com/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to send message");
+      // Get EmailJS credentials from environment variables
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      
+      // Validate that credentials exist
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("Email service configuration is missing");
       }
-
+      
+      // Send email using emailjs.send with template parameters
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message
+        },
+        publicKey
+      );
+      
       setSuccess(true);
       setFormData({
         name: '',
@@ -40,14 +54,15 @@ export default function Footer() {
         message: ''
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error("Email sending error:", err);
+      setError(err instanceof Error ? err.message : "Failed to send message. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <footer className="bg-black text-white py-12">
+    <footer className="bg-black text-white py-12" id="contact">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
@@ -110,10 +125,36 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="text-xl font-bold mb-4">Contact Info</h3>
-            <p className="text-gray-400 mb-2">123 Certification Street</p>
-            <p className="text-gray-400 mb-2">City, Country</p>
-            <p className="text-gray-400 mb-2">Phone: +1 234 567 890</p>
-            <p className="text-gray-400">Email: info@certifications.com</p>
+            <div className="space-y-3">
+              <p className="text-gray-400 flex items-center gap-2">
+                <FaMapMarkerAlt className="text-blue-400" />
+                123 Certification Street, City, Country
+              </p>
+              <p className="text-gray-400 flex items-center gap-2">
+                <FaPhone className="text-blue-400" />
+                +1 234 567 890
+              </p>
+              <p className="text-gray-400 flex items-center gap-2">
+                <FaEnvelope className="text-blue-400" />
+                info@certifications.com
+              </p>
+            </div>
+            
+            <h3 className="text-xl font-bold mt-6 mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white text-xl">
+                <FaFacebook />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white text-xl">
+                <FaTwitter />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white text-xl">
+                <FaInstagram />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white text-xl">
+                <FaLinkedin />
+              </a>
+            </div>
           </div>
         </div>
         <div className="mt-12 border-t border-gray-800 pt-8">
@@ -130,17 +171,17 @@ export default function Footer() {
               <a href="/services" className="text-gray-400 hover:text-white">
                 Services
               </a>
-              <a href="/about" className="text-gray-400 hover:text-white">
+              <a href="/#about" className="text-gray-400 hover:text-white">
                 About
               </a>
-              <a href="/contact" className="text-gray-400 hover:text-white">
+              <a href="/#contact" className="text-gray-400 hover:text-white">
                 Contact
               </a>
             </div>
           </div>
           <div className="mt-8 text-center">
             <p className="text-gray-400">
-              © 2023 Certification Services. All rights reserved.
+              © {new Date().getFullYear()} Certification Services. All rights reserved.
             </p>
           </div>
         </div>

@@ -1,14 +1,17 @@
 "use client"; // Ensure this is present
 import Link from "next/link";
-import { Link as ScrollLink, Element } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import ArrowRight from "@/assets/arrow-right.svg";
 import Logo from "@/assets/logosaas.png";
 import Image from "next/image";
 import MenuIcon from "@/assets/menu.svg";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -31,6 +34,23 @@ export const Header = () => {
     };
   }, [isMenuOpen]);
 
+  // Navigation links rendering based on current page
+  const renderNavLink = (to: string, label: string) => {
+    if (isHomePage) {
+      return (
+        <ScrollLink to={to} smooth={true} duration={500} className="cursor-pointer">
+          {label}
+        </ScrollLink>
+      );
+    } else {
+      return (
+        <Link href={`/#${to}`}>
+          {label}
+        </Link>
+      );
+    }
+  };
+
   return (
     <header className="sticky top-0 backdrop-blur-sm z-20">
       <div className="flex justify-center items-center py-3 bg-black text-white text-sm gap-3">
@@ -43,47 +63,54 @@ export const Header = () => {
         </div>
       </div>
       <div className="py-5">
-        <div className="container rounded-lg bg-[#ffffff]  bg-opacity-50 py5">
+        <div className="container rounded-lg bg-[#ffffff] bg-opacity-50 py5">
           <div className="flex items-center justify-between">
-            <Image src={Logo} alt="Saas Logo" height={40} width={40} />
+            <Link href="/">
+              <Image src={Logo} alt="Saas Logo" height={40} width={40} />
+            </Link>
             <MenuIcon
               className="h-5 w-5 md:hidden cursor-pointer"
               onClick={toggleMenu}
             />
-            <nav className="hidden md:flex gap-6 text-black items-center ">
+            <nav className="hidden md:flex gap-6 text-black items-center">
               {/* Horizontal Menu for Larger Screens */}
-              <a href="">
-                <ScrollLink to="home" smooth={true} duration={500}>
-                  Home
-                </ScrollLink>
-              </a>
-              <a href="">
-                <ScrollLink to="about" smooth={true} duration={500}>
-                  About
-                </ScrollLink>
-              </a>
-              <a href="">
-                <ScrollLink to="ourgoals" smooth={true} duration={500}>
-                  Our-Goals
-                </ScrollLink>
-              </a>
-              <a href="">
-                <ScrollLink to="test" smooth={true} duration={500}>
-                  What-are-we
-                </ScrollLink>
-              </a>
-              <Link href="/services" className="text-black">
-                Services
-              </Link>
-              <a href="">
-                <ScrollLink to="" smooth={true} duration={500}>
-                  Contact us
-                </ScrollLink>
-              </a>
+              {isHomePage ? (
+                <>
+                  {renderNavLink("home", "Home")}
+                  {renderNavLink("about", "About")}
+                  {renderNavLink("ourgoals", "Our-Goals")}
+                  {renderNavLink("test", "What-are-we")}
+                  <Link href="/services" className="text-black">
+                    Services
+                  </Link>
+                  {renderNavLink("contact", "Contact us")}
+                </>
+              ) : (
+                <>
+                  <Link href="/" className="text-black">
+                    Home
+                  </Link>
+                  <Link href="/#about" className="text-black">
+                    About
+                  </Link>
+                  <Link href="/#ourgoals" className="text-black">
+                    Our-Goals
+                  </Link>
+                  <Link href="/#test" className="text-black">
+                    What-are-we
+                  </Link>
+                  <Link href="/services" className="text-black">
+                    Services
+                  </Link>
+                  <Link href="/#contact" className="text-black">
+                    Contact us
+                  </Link>
+                </>
+              )}
               <button className="bg-black text-white px-4 py-2 rounded-lg font-medium">
-              <Link href="/services">
-                Explore now!
-              </Link>
+                <Link href="/services">
+                  Explore now!
+                </Link>
               </button>
             </nav>
             {/* Vertical Mobile Menu */}
@@ -95,36 +122,43 @@ export const Header = () => {
               }`}
             >
               <div className="flex flex-col items-start gap-4 text-lg">
-                <a href="">
-                  <ScrollLink to="home" smooth={true} duration={500}>
-                    Home
-                  </ScrollLink>
-                </a>
-                <a href="">
-                  <ScrollLink to="about" smooth={true} duration={500}>
-                    About
-                  </ScrollLink>
-                </a>
-                <a href="">
-                  <ScrollLink to="ourgoals" smooth={true} duration={500}>
-                    Our-Goals
-                  </ScrollLink>
-                </a>
-                <a href="">
-                  <ScrollLink to="test" smooth={true} duration={500}>
-                    What-are-we
-                  </ScrollLink>
-                </a>
-                <Link href="/services" className="text-black">
-                Services
-              </Link>
-                <a href="">
-                  <ScrollLink to="" smooth={true} duration={500}>
-                    Contact us
-                  </ScrollLink>
-                </a>
+                {isHomePage ? (
+                  <>
+                    {renderNavLink("home", "Home")}
+                    {renderNavLink("about", "About")}
+                    {renderNavLink("ourgoals", "Our-Goals")}
+                    {renderNavLink("test", "What-are-we")}
+                    <Link href="/services" className="text-black">
+                      Services
+                    </Link>
+                    {renderNavLink("contact", "Contact us")}
+                  </>
+                ) : (
+                  <>
+                    <Link href="/" className="text-black">
+                      Home
+                    </Link>
+                    <Link href="/#about" className="text-black">
+                      About
+                    </Link>
+                    <Link href="/#ourgoals" className="text-black">
+                      Our-Goals
+                    </Link>
+                    <Link href="/#test" className="text-black">
+                      What-are-we
+                    </Link>
+                    <Link href="/services" className="text-black">
+                      Services
+                    </Link>
+                    <Link href="/#contact" className="text-black">
+                      Contact us
+                    </Link>
+                  </>
+                )}
                 <button className="bg-black text-white px-4 py-2 rounded-lg font-medium">
-                  Get for free
+                  <Link href="/services">
+                    Get for free
+                  </Link>
                 </button>
               </div>
               {/* Close Button for Mobile Menu */}
