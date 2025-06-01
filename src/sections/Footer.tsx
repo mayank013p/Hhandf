@@ -127,16 +127,12 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-4">Contact Info</h3>
             <div className="space-y-3">
               <p className="text-gray-400 flex items-center gap-2">
-                <FaMapMarkerAlt className="text-blue-400" />
-                123 Certification Street, City, Country
-              </p>
-              <p className="text-gray-400 flex items-center gap-2">
                 <FaPhone className="text-blue-400" />
-                +1 234 567 890
+                +91 99968 25093
               </p>
               <p className="text-gray-400 flex items-center gap-2">
                 <FaEnvelope className="text-blue-400" />
-                info@certifications.com
+                Helpinghand4iso@gmail.com
               </p>
             </div>
             
@@ -163,7 +159,7 @@ export default function Footer() {
               <Image
                 src={Logo}
                 alt="Company Logo"
-                width={50}
+                width={200}
                 height={50}
               />
             </div>

@@ -66,7 +66,7 @@ export const Header = () => {
         <div className="container rounded-lg bg-[#ffffff] bg-opacity-50 py5">
           <div className="flex items-center justify-between">
             <Link href="/">
-              <Image src={Logo} alt="Saas Logo" height={40} width={40} />
+              <Image src={Logo} alt="Saas Logo" height={0} width={70} />
             </Link>
             <MenuIcon
               className="h-5 w-5 md:hidden cursor-pointer"
